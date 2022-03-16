@@ -6,6 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/paudelgaurav/gin-blog-backend/models"
+
+	"github.com/paudelgaurav/gin-blog-backend/controllers"
 )
 
 func main() {
@@ -16,14 +18,6 @@ func main() {
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"ping": "pong"})
 	})
-	router.GET("/blogs", getAllBlogs)
+	router.GET("/blogs", controllers.GetAllBlogs)
 	router.Run()
-}
-
-// get all blogs
-
-func getAllBlogs(c *gin.Context) {
-	var books []models.Blog
-	models.DB.Find(&books)
-	c.JSON(http.StatusOK, gin.H{"data": books})
 }
