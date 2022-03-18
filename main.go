@@ -22,5 +22,8 @@ func main() {
 	router.POST("/blogs", controllers.CreateBlog)
 	router.DELETE("/blog/:id", controllers.DeleteBlog)
 	router.PATCH("/blog/:id", controllers.UpdateBlog)
+
+	router.GET("/tags", controllers.GetAllTags)
+
 	router.Run()
 }

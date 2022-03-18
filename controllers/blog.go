@@ -22,9 +22,9 @@ type UpdateBlogInput struct {
 // get all blogs
 
 func GetAllBlogs(c *gin.Context) {
-	var books []models.Blog
-	models.DB.Find(&books)
-	c.JSON(http.StatusOK, gin.H{"data": books})
+	var blogs []models.Blog
+	models.DB.Find(&blogs)
+	c.JSON(http.StatusOK, gin.H{"data": blogs})
 }
 
 //For post request /blogs
