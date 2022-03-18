@@ -9,9 +9,14 @@ import (
 )
 
 // creating this to validate incomming post data
-type CreateBookInput struct {
+type CreateBlogInput struct {
 	Title   string `json:"title" binding:"required"`
 	Content string `json:"content" binding:"required"`
+}
+
+type UpdateBlogInput struct {
+	Title   string `json:"title"`
+	Content string `json:"content"`
 }
 
 // get all blogs
@@ -25,7 +30,7 @@ func GetAllBlogs(c *gin.Context) {
 //For post request /blogs
 
 func CreateBlog(c *gin.Context) {
-	var input CreateBookInput
+	var input CreateBlogInput
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -48,4 +53,23 @@ func DeleteBlog(c *gin.Context) {
 	}
 	models.DB.Delete(&blog)
 	c.JSON(http.StatusNoContent, gin.H{"deleted": true})
+}
+
+// updating a blog post
+
+func UpdateBlog(c *gin.Context) {
+
+	var blog models.Blog
+	if err := models.DB.First(&blog, "id = ?", c.Param("id")).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"detail": "Blog not found"})
+	}
+
+	// validate input data
+	var input UpdateBlogInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	models.DB.Model(&blog).Updates(input)
+	c.JSON(http.StatusOK, gin.H{"data": blog})
 }
