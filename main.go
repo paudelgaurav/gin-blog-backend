@@ -19,5 +19,6 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"ping": "pong"})
 	})
 	router.GET("/blogs", controllers.GetAllBlogs)
+	router.POST("/blogs", controllers.CreateBlog)
 	router.Run()
 }
