@@ -20,5 +20,6 @@ func main() {
 	})
 	router.GET("/blogs", controllers.GetAllBlogs)
 	router.POST("/blogs", controllers.CreateBlog)
+	router.DELETE("/blog/:id", controllers.DeleteBlog)
 	router.Run()
 }

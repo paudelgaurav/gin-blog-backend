@@ -38,3 +38,14 @@ func CreateBlog(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": blog})
 }
+
+// For deleting blog post
+func DeleteBlog(c *gin.Context) {
+	// Get model if exists
+	var blog models.Blog
+	if err := models.DB.First(&blog, "id = ?", c.Param("id")).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"detail": "Blog not found"})
+	}
+	models.DB.Delete(&blog)
+	c.JSON(http.StatusNoContent, gin.H{"deleted": true})
+}
