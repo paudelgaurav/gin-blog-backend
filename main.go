@@ -25,5 +25,8 @@ func main() {
 
 	router.GET("/tags", controllers.GetAllTags)
 
+	router.POST("/register", controllers.RegisterUser)
+	router.GET("/users", controllers.GetAllUsers)
+
 	router.Run()
 }

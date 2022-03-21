@@ -14,7 +14,7 @@ func ConnectDatabase() {
 	if err != nil {
 		panic("Failed to connect to databse")
 	}
-	database.AutoMigrate(&Blog{}, &Tag{})
+	database.AutoMigrate(&Blog{}, &Tag{}, &User{})
 
 	DB = database
 }
