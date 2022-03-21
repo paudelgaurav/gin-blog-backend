@@ -28,5 +28,9 @@ func main() {
 	router.POST("/register", controllers.RegisterUser)
 	router.GET("/users", controllers.GetAllUsers)
 
+	// auth
+
+	router.POST("/auth-token", controllers.GetToken)
+
 	router.Run()
 }

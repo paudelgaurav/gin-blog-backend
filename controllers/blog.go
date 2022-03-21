@@ -66,6 +66,7 @@ func UpdateBlog(c *gin.Context) {
 	var blog models.Blog
 	if err := models.DB.First(&blog, "id = ?", c.Param("id")).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"detail": "Blog not found"})
+		return
 	}
 
 	// validate input data
