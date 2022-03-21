@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/paudelgaurav/gin-blog-backend/models"
+	"github.com/paudelgaurav/gin-blog-backend/utils"
 )
 
 type RegisterUserInput struct {
@@ -26,6 +27,8 @@ func RegisterUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"detail": "User with this email already exists"})
 		return
 	}
+
+	utils.HashPassword(&input.Password)
 
 	user = models.User{Name: input.Name, Email: input.Email, Password: input.Password}
 	models.DB.Create(&user)
