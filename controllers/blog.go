@@ -12,6 +12,7 @@ import (
 type CreateBlogInput struct {
 	Title   string `json:"title" binding:"required"`
 	Content string `json:"content" binding:"required"`
+	Tags    []uint `json:"tags" binding:"required"`
 }
 
 type UpdateBlogInput struct {
@@ -31,6 +32,7 @@ func GetAllBlogs(c *gin.Context) {
 
 func CreateBlog(c *gin.Context) {
 	var input CreateBlogInput
+	var tags []models.Tag
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -38,7 +40,9 @@ func CreateBlog(c *gin.Context) {
 	}
 
 	//creating new blog
-	blog := models.Blog{Title: input.Title, Content: input.Content}
+	models.DB.Find(&tags, input.Tags)
+
+	blog := models.Blog{Title: input.Title, Content: input.Content, Tags: tags}
 	models.DB.Create(&blog)
 
 	c.JSON(http.StatusOK, gin.H{"data": blog})
